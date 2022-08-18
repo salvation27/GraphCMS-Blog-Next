@@ -36,3 +36,66 @@ export const getPosts = async () => {
 
   return posts;
 };
+
+
+export const getRecentPosts = async () => {
+  const query = gql`
+  query GetPostDetails(){
+    posts(
+      orderBy:createdAt_ASC
+      last:2
+      ){
+        title
+        image{
+          url
+        }
+        createdAt
+        slug
+      }
+  }
+`
+  const result = await graphqlcms.request(query);
+
+  return result.posts; 
+}
+
+
+
+export const getSimilarPosts = async () => {
+  const query = gql`
+    query GetPostDetails($slug: String!, $categories: [String!]) {
+      posts(
+        where: {
+          slug_not: $slug
+          AND: { categories_some: { slug_in: $categories } }
+        }
+        last: 2
+      ) {
+        title
+        image {
+          url
+        }
+        createdAt
+        slug
+      }
+    }
+  `;
+  const result = await graphqlcms.request(query);
+
+  return result.posts;
+};
+
+
+export const getCategories = async () => {
+  const query = gql`
+  query GetCategories{
+    categories{
+      name
+      slug
+    }
+  }
+  `;
+  const result = await graphqlcms.request(query);
+
+  return result.categories;
+};
