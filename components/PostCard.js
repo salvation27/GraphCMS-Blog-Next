@@ -3,7 +3,6 @@ import moment from 'moment'
 import Link from 'next/link'
 
 const PostCard = ({item}) => {
-  // console.log(item)
   return (
     <Link href={`posts/${item.slug}`}>
       <div className="bg-white shadow-lg rounded-lg p-0 lg:p-8 pb-12 mb-12 cursor-pointer hover:drop-shadow-4xl">
